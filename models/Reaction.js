@@ -18,25 +18,23 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: formatDate,
+      get: formatReactionDate,
     },
   },
   {
     toJson: {
       getters: true,
-      virtuals: true,
     },
     toObject: {
       getters: true,
-      virtuals: true,
     },
     _id: false,
   }
 );
 
 // getter function to format date on query
-function formatDate(date) {
-  return date.toDateString();
+function formatReactionDate(date) {
+  return date.toTimeString();
 }
 
 module.exports = reactionSchema;

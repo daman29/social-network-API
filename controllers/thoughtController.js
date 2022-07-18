@@ -5,6 +5,7 @@ module.exports = {
   // get all thoughts
   getThoughts(req, res) {
     Thought.find()
+    .populate({path: 'reactions', select: "-__v" })
       .then((thoughts) => res.json(thoughts))
       .catch((err) => {
         console.log(err);
