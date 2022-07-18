@@ -67,11 +67,17 @@ module.exports = {
   // delete thought
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: "No thought with that ID" })
-          : res.json(thought)
-      )
+      .then((thought) => {
+        if (!thought) {
+          res.status(404).json({ message: "No thought with that ID" });
+        } else {
+          User.findOneAndUpdate(
+            { username: thought.username },
+            { $pull: { thoughts: thought._id } }
+          );
+          res.json(thought)
+        }
+      })
       .catch((err) => {
         console.log(err);
         return res.status(500).json(err);
@@ -101,7 +107,13 @@ module.exports = {
   deleteReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
-      { $pull: { reactions: req.params.reactionId } },
+      {
+        $pull: {
+          reactions: {
+            _id: req.params.reactionId,
+          },
+        },
+      },
       { new: true }
     )
       .then((thought) =>
