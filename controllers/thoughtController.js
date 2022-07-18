@@ -73,9 +73,10 @@ module.exports = {
         } else {
           User.findOneAndUpdate(
             { username: thought.username },
-            { $pull: { thoughts: thought._id } }
+            { $pull: { thoughts: thought._id } },
+            { new: true }
           );
-          res.json(thought)
+          res.json(thought);
         }
       })
       .catch((err) => {
