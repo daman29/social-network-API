@@ -111,7 +111,7 @@ module.exports = {
       {
         $pull: {
           reactions: {
-            _id: req.params.reactionId,
+            reactionId: req.params.reactionId,
           },
         },
       },

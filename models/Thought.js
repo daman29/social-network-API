@@ -12,12 +12,13 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: formatDate,
     },
     username: {
       type: String,
       required: true,
     },
-    reactions: [reactionSchema],
+    reactions: [{ type: reactionSchema }],
   },
   {
     toJSON: {
@@ -26,6 +27,11 @@ const thoughtSchema = new Schema(
     },
   }
 );
+
+// getter function to format date on query
+function formatDate(date) {
+  return date.toDateString();
+}
 
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, Types } = require("mongoose");
 
 const reactionSchema = new Schema(
   {
@@ -24,11 +24,17 @@ const reactionSchema = new Schema(
   {
     toJson: {
       getters: true,
+      virtuals: true,
     },
-    id: false,
+    toObject: {
+      getters: true,
+      virtuals: true,
+    },
+    _id: false,
   }
 );
 
+// getter function to format date on query
 function formatDate(date) {
   return date.toDateString();
 }
