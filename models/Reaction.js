@@ -27,6 +27,7 @@ const reactionSchema = new Schema(
     toJson: {
       getters: true,
     },
+    id: false
   }
 );
 
